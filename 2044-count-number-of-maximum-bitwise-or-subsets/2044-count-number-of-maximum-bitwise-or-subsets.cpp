@@ -1,34 +1,24 @@
 class Solution {
 public:
-    void solve(vector<int>& nums, vector<vector<int>>& arr, vector<int>& set, int index) {
-        arr.push_back(set); 
+    void solve(vector<int>& nums, int& max_or, int index, int local, int& cnt) {
+        if (local == max_or) {
+            cnt++;
+        }
         
         for (int i = index; i < nums.size(); i++) {
-            set.push_back(nums[i]);
-            solve(nums, arr, set, i + 1);
-            set.pop_back();
+            solve(nums, max_or, i + 1, local | nums[i], cnt);
         }
     }
     
     int countMaxOrSubsets(vector<int>& nums) {
-        vector<vector<int>> arr;
-        vector<int> set;
-        
-        solve(nums, arr, set, 0);
-        
         int max_or = 0;
-        unordered_map<int, int> mapi;
-        
-        for (const auto& subset : arr) {
-            int temp = 0;
-            for (int num : subset) {
-                temp |= num;
-            }
-            
-            mapi[temp]++;
-            max_or = max(max_or, temp);
+        for (int num : nums) {
+            max_or |= num;
         }
         
-        return mapi[max_or];
+        int cnt = 0;
+        solve(nums, max_or, 0, 0, cnt);
+        
+        return cnt;
     }
 };
