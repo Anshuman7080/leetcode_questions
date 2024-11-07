@@ -14,9 +14,7 @@ public:
             
             while (mapi[nums[end]] > k) {
                 mapi[nums[start]]--;
-                if (mapi[nums[start]] == 0) {
-                    mapi.erase(nums[start]);
-                }
+               
                 start++;
             }
             
